@@ -1,0 +1,64 @@
+# .streamlit/config.toml
+# Streamlit configuration file
+
+[theme]
+# Primary color for interactive elements
+primaryColor = "#FF6B6B"
+
+# Background color for the main content area
+backgroundColor = "#FFFFFF"
+
+# Background color for sidebar
+secondaryBackgroundColor = "#F5F5F5"
+
+# Text color
+textColor = "#262730"
+
+# Font family
+font = "sans serif"
+
+[server]
+# Port to run Streamlit on
+port = 8501
+
+# Address to bind to
+address = "0.0.0.0"
+
+# Automatically open browser
+headless = true
+
+# Enable CORS
+enableCORS = true
+
+# Enable XSS protection
+enableXsrfProtection = true
+
+# Max upload size (MB)
+maxUploadSize = 200
+
+# Max message size (MB)
+maxMessageSize = 200
+
+[browser]
+# Browser tab title
+gatherUsageStats = false
+
+# Server address for browser
+serverAddress = "localhost"
+
+# Port for browser
+serverPort = 8501
+
+[client]
+# Show error details
+showErrorDetails = true
+
+# Tool tip display
+toolbarMode = "auto"
+
+[logger]
+# Level of logging
+level = "info"
+
+# Log message format
+messageFormat = "%(asctime)s %(name)-12s %(levelname)-8s %(message)s"

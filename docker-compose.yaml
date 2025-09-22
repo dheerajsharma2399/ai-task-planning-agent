@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  # Main application service
+  app:
+    build: .
+    ports:
+      - "8501:8501"
+    environment:
+      - STREAMLIT_SERVER_PORT=8501
+      - STREAMLIT_SERVER_HEADLESS=true
+      - STREAMLIT_SERVER_ENABLE_CORS=false
+    env_file:
+      - .env
+    volumes:
+      - ./task_plans.db:/app/task_plans.db
+      - ./logs:/app/logs
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8501/_stcore/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - ai-planner-network
+
+  # Ollama service for local LLM (optional)
+  ollama:
+    image: ollama/ollama:latest
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    restart: unless-stopped
+    networks:
+      - ai-planner-network
+    command: serve
+
+  # Database backup service (optional)
+  backup:
+    image: alpine:latest
+    volumes:
+      - ./task_plans.db:/data/task_plans.db
+      - ./backups:/backups
+    command: >
+      sh -c "
+      while true; do
+        cp /data/task_plans.db /backups/task_plans_$$(date +%Y%m%d_%H%M%S).db
+        find /backups -name '*.db' -mtime +7 -delete
+        sleep 86400
+      done
+      "
+    restart: unless-stopped
+
+networks:
+  ai-planner-network:
+    driver: bridge
+
+volumes:
+  ollama_data:
