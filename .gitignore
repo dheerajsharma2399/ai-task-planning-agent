@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+venv/
+.venv/
+*.env
+.env
+pip-log.txt
+pip-delete-this-directory.txt
+htmlcov/
+.tox/
+.coverage
+.pytest_cache/
+.ipynb_checkpoints/
+dist/
+build/
+*.egg-info/
+*.egg
+
+# Streamlit
+.streamlit/
+
+# Database
+*.db
+
+# OS-specific
+.DS_Store
+Thumbs.db
+ehthumbs.db
+*.stackdump
+*.log
