@@ -72,16 +72,14 @@ class TaskPlanner:
         '''
         
         response = self.llm.generate(prompt)
-        try:
-            # Parse JSON from response
-            import re
-            json_match = re.search(r'{{.*}}', response, re.DOTALL)
-            if json_match:
-                return json.loads(json_match.group())
-        except:
-            pass
         
-        # Fallback
+        # Parse JSON from response
+        import re
+        json_match = re.search(r'{{.*}}', response, re.DOTALL)
+        if json_match:
+            return json.loads(json_match.group())
+        
+        # Fallback if JSON parsing fails or no match
         return {
             'duration_days': 1,
             'location': None,

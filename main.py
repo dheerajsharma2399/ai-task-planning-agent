@@ -32,6 +32,8 @@ def main():
         st.session_state.db_manager = DatabaseManager()
     if 'current_plan' not in st.session_state:
         st.session_state.current_plan = None
+    if 'llm_initialized' not in st.session_state:
+        st.session_state.llm_initialized = False
     
     # Sidebar for configuration
     with st.sidebar:
@@ -71,6 +73,10 @@ def main():
             api_key_env = os.getenv(env_var_name)
             api_key = api_key_input if api_key_input else api_key_env
             st.write(f"Model used: {openrouter_model}")
+            import logging
+            logging.basicConfig(level=logging.INFO)
+            masked_api_key = f"{api_key[:5]}...{api_key[-5:]}" if api_key else "<API Key not provided>"
+            logging.info(f"OpenRouter API Key being used (masked): {masked_api_key}")
         elif provider != "ollama":
             api_key_input = st.text_input(
                 f"{provider.upper()} API Key",
@@ -142,7 +148,7 @@ def main():
             if st.button("🎯 Generate Plan", type="primary"):
                 if not goal:
                     st.error("Please enter a goal")
-                elif not st.session_state.llm_manager.provider:
+                elif not st.session_state.llm_initialized:
                     st.error("Please initialize LLM provider first")
                 else:
                     with st.spinner("Creating your personalized plan..."):
