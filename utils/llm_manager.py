@@ -100,7 +100,7 @@ class LLMManager:
                     model=model,
                     messages=messages,
                     temperature=0.7,
-                    max_tokens=2000
+                    max_tokens=8000
                 )
                 logging.info(f"LLM response: {response.choices[0].message.content}")
                 return response.choices[0].message.content
